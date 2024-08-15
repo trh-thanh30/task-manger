@@ -89,20 +89,24 @@ const signOut = async (req, res) => {
 };
 const updateUser = async (req, res) => {
   const { id } = req.user;
+  const { username, email } = req.body;
   if (!id)
     return res
       .status(400)
       .json({ message: "User does not exist", success: false });
   try {
-    const updatedUser = await User.findByIdAndUpdate(id, {
-      $set: {
-        username: req.body.username,
-        email: req.body.email,
-      },
-    });
+    let updatedUserData = { username, email };
+    if (req.file) {
+        updatedUserData.profilePicture = req.file?.path;
+    }
+    const user = await User.findByIdAndUpdate(
+      id,
+      updatedUserData,
+      { new: true }
+    );
     res
       .status(200)
-      .json({ message: "User updated successfully", success: true });
+      .json({ message: "User updated successfully", success: true, user });
   } catch (error) {
     return res.status(500).json({ message: error.message, success: false });
   }

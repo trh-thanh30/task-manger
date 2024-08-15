@@ -6,10 +6,16 @@ const {
   updateUser,
 } = require("../controller/user.controller");
 const verifyToken = require("../middleware/verifyToken");
+const cloudinaryFileUploader = require("../middleware/uploadFile");
 const router = express.Router();
 router.post("/register", register);
 router.post("/sign-in", signIn);
 router.get("/sign-out", signOut);
-router.put("/update", verifyToken, updateUser);
+router.put(
+  "/update",
+  verifyToken,
+  cloudinaryFileUploader.single("profilePicture"),
+  updateUser
+);
 
 module.exports = router;
