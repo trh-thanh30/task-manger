@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Label, Button, Alert } from "flowbite-react";
+import { Label, Button, Alert, Spinner } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -8,15 +8,15 @@ export default function Register() {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  console.log(formData);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(false)
-      const res = fetch("http://localhost:3000/api/user/register", {
+      setLoading(true);
+      setError(null);
+      const res = await fetch("http://localhost:3000/api/user/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,11 +27,13 @@ export default function Register() {
       if (data.success === false) {
         setError(data.message);
       }
+      setLoading(false);
       if (res.ok) {
         navigate("/sign-in");
       }
     } catch (error) {
       setError(error.message);
+      setLoading(false);
     }
   };
   return (
@@ -115,8 +117,18 @@ export default function Register() {
                 onChange={handleChange}
               ></input>
             </div>
-            <Button gradientDuoTone={"purpleToPink"} outline type="submit">
-              Sign Up
+            {error && <Alert color={"failure"}>{error}</Alert>}
+            <Button
+              gradientDuoTone={"purpleToPink"}
+              outline
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? (
+                <Spinner size={"sm"}></Spinner>
+              ) : (
+                <span className="text-sm">Register</span>
+              )}
             </Button>
           </form>
           <div className="flex items-center justify-center gap-2 mt-4 text-sm">
