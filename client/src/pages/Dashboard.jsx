@@ -1,3 +1,4 @@
+import FooterCom from "../components/Footer";
 import Header from "../components/Header";
 
 export default function Dashboard() {
@@ -5,6 +6,7 @@ export default function Dashboard() {
     <>
       <Header></Header>
       <div></div>
+      <FooterCom></FooterCom>
     </>
   );
 }

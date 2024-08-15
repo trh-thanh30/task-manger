@@ -1,8 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Navbar } from "flowbite-react";
 export default function Logo() {
   return (
-    <Navbar.Brand>
+    <div className="flex items-center">
       <svg
         width="41"
         height="40"
@@ -26,11 +25,9 @@ export default function Logo() {
         />
       </svg>
 
-      <span
-        className={` px-2 rounded-xl text-white py-1 bg-gradient-to-r from-indigo-500 via-blue-500 to-blue-500 `}
-      >
+      <span className={` px-2 rounded-xl text-blue-500 text-lg font-bold `}>
         HuuThanh's
       </span>
-    </Navbar.Brand>
+    </div>
   );
 }
