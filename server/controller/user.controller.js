@@ -97,13 +97,11 @@ const updateUser = async (req, res) => {
   try {
     let updatedUserData = { username, email };
     if (req.file) {
-        updatedUserData.profilePicture = req.file?.path;
+      updatedUserData.profilePicture = req.file?.path;
     }
-    const user = await User.findByIdAndUpdate(
-      id,
-      updatedUserData,
-      { new: true }
-    );
+    const user = await User.findByIdAndUpdate(id, updatedUserData, {
+      new: true,
+    });
     res
       .status(200)
       .json({ message: "User updated successfully", success: true, user });
@@ -111,4 +109,19 @@ const updateUser = async (req, res) => {
     return res.status(500).json({ message: error.message, success: false });
   }
 };
-module.exports = { register, signIn, signOut, updateUser };
+const deleteUser = async (req, res) => {
+  const { id } = req.user;
+  if (!id)
+    return res
+      .status(400)
+      .json({ message: "User does not exist", success: false });
+  try {
+    const user = await User.findByIdAndDelete(id);
+    res
+      .status(200)
+      .json({ message: "User deleted successfully", success: true, user });
+  } catch (error) {
+    return res.status(500).json({ message: error.message, success: false });
+  }
+};
+module.exports = { register, signIn, signOut, updateUser, deleteUser };
