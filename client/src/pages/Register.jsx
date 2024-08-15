@@ -119,7 +119,7 @@ export default function Register() {
             </div>
             {error && <Alert color={"failure"}>{error}</Alert>}
             <Button
-              gradientDuoTone={"purpleToPink"}
+              gradientDuoTone={"purpleToBlue"}
               outline
               type="submit"
               disabled={loading}

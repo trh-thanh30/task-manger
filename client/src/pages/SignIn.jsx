@@ -2,39 +2,43 @@
 import { Label, Button, Alert, Spinner } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  SignInStart,
+  SignInSuccess,
+  SignInFailure,
+} from "../redux/user/userSlice";
 
 export default function SignIn() {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { error, loading } = useSelector((state) => state.user);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
-      setError(null);
+      dispatch(SignInStart());
       const res = await fetch("http://localhost:3000/api/user/sign-in", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          credentials: "include",
         },
+        credentials: "include",
         body: JSON.stringify(formData),
       });
       const data = await res.json();
       if (data.success === false) {
-        setError(data.message);
+        dispatch(SignInFailure(data.message));
       }
-      setLoading(false);
       if (res.ok) {
+        dispatch(SignInSuccess(data));
         navigate("/");
       }
     } catch (error) {
-      setError(error.message);
-      setLoading(false);
+      dispatch(SignInFailure(error.message));
     }
   };
   return (
@@ -63,7 +67,6 @@ export default function SignIn() {
           </p>
         </div>
         {/* right */}
-
         <div className="flex-1 p-5 bg-white rounded-lg shadow-2xl">
           <form className="flex flex-col gap-4 " onSubmit={handleSubmit}>
             <div className="text-center">
@@ -105,13 +108,13 @@ export default function SignIn() {
             </div>
             {error && <Alert color={"failure"}>{error}</Alert>}
             <Button
-              gradientDuoTone={"purpleToPink"}
+              gradientDuoTone={"purpleToBlue"}
               outline
               type="submit"
               disabled={loading}
             >
               {loading ? (
-                <Spinner size={"sm"}></Spinner>
+                <Spinner size={"md"}></Spinner>
               ) : (
                 <span className="text-sm">Sign In</span>
               )}
