@@ -5,6 +5,7 @@ const {
   signOut,
   updateUser,
   deleteUser,
+  changePassword,
 } = require("../controller/user.controller");
 const verifyToken = require("../middleware/verifyToken");
 const cloudinaryFileUploader = require("../middleware/uploadFile");
@@ -18,6 +19,8 @@ router.put(
   cloudinaryFileUploader.single("profilePicture"),
   updateUser
 );
+router.put("/update-password", verifyToken, changePassword);
+
 router.delete("/delete", verifyToken, deleteUser);
 
 module.exports = router;

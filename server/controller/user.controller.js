@@ -116,7 +116,41 @@ const updateUser = async (req, res) => {
     return res.status(500).json({ message: error.message, success: false });
   }
 };
-const changePassword = async (req, res) => {};
+const changePassword = async (req, res) => {
+  const { id } = req.user;
+  const { oldPassword, newPassword } = req.body;
+  if (!id) {
+    return res
+      .status(404)
+      .json({ message: "User does not exist", success: false });
+  }
+  try {
+    const user = await User.findById(id);
+    const isMatch = bcryptjs.compareSync(oldPassword, user.password);
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ message: "Old password is incorrect", success: false });
+    }
+
+    // Hash the new password
+    const hashedNewPassword = bcryptjs.hashSync(newPassword, 10);
+    // Update the user's password
+    await User.findByIdAndUpdate(
+      id,
+      { password: hashedNewPassword },
+      { new: true }
+    );
+
+    res.status(200).json({
+      message: "Password changed successfully",
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message, success: false });
+  }
+};
 const deleteUser = async (req, res) => {
   const { id } = req.user;
   if (!id)
