@@ -94,6 +94,15 @@ const updateUser = async (req, res) => {
     return res
       .status(400)
       .json({ message: "User does not exist", success: false });
+  if (email) {
+    const emailExists = await User.findOne({ email });
+    if (emailExists) {
+      return res.status(400).json({
+        message: "Email already in use by another user",
+        success: false,
+      });
+    }
+  }
   try {
     let updatedUserData = { username, email };
     if (req.file) {
@@ -102,9 +111,7 @@ const updateUser = async (req, res) => {
     const user = await User.findByIdAndUpdate(id, updatedUserData, {
       new: true,
     });
-    res
-      .status(200)
-      .json({ message: "User updated successfully", success: true, user });
+    res.status(200).json(user);
   } catch (error) {
     return res.status(500).json({ message: error.message, success: false });
   }
