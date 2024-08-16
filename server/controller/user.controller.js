@@ -116,6 +116,7 @@ const updateUser = async (req, res) => {
     return res.status(500).json({ message: error.message, success: false });
   }
 };
+const changePassword = async (req, res) => {};
 const deleteUser = async (req, res) => {
   const { id } = req.user;
   if (!id)
@@ -131,4 +132,12 @@ const deleteUser = async (req, res) => {
     return res.status(500).json({ message: error.message, success: false });
   }
 };
-module.exports = { register, signIn, signOut, updateUser, deleteUser };
+
+module.exports = {
+  register,
+  signIn,
+  signOut,
+  updateUser,
+  deleteUser,
+  changePassword,
+};

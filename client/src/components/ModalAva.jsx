@@ -5,7 +5,11 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
 } from "../redux/user/userSlice";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState } from "react";
 export default function ModalAva({ showModal, setShowModal }) {
@@ -79,18 +83,30 @@ export default function ModalAva({ showModal, setShowModal }) {
           text: "Your file has been deleted.",
           icon: "success",
         });
-
-        const res = fetch("http://localhost:3000/api/user/delete", {
-          method: "DELETE",
-          credentials: "include",
-        });
-
-        if (res.ok) {
-          dispatch(updateUserSuccess(null));
-        }
+        const handleDeleteUser = async () => {
+          try {
+            dispatch(deleteUserStart());
+            const res = await fetch("http://localhost:3000/api/user/delete", {
+              method: "DELETE",
+              credentials: "include",
+            });
+            const data = await res.json();
+            if (data.success === true) {
+              dispatch(deleteUserSuccess(data));
+              setShowModal(false);
+              window.location.reload();
+            } else {
+              dispatch(deleteUserFailure(data.message));
+            }
+          } catch (error) {
+            dispatch(deleteUserFailure(error.message));
+          }
+        };
+        handleDeleteUser();
       }
     });
   };
+
   return (
     <Modal show={showModal} onClose={() => setShowModal(false)}>
       <Modal.Header>Update Profile</Modal.Header>
