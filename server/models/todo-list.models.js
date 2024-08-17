@@ -28,6 +28,10 @@ const toDoListSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isPin: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

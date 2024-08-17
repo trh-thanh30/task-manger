@@ -116,10 +116,28 @@ const getToDoListById = async (req, res) => {
     return res.status(400).json({ message: error.message, success: false });
   }
 };
+
+const pin = async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(404).json({ message: "Id not found", success: false });
+  }
+  try {
+    const todoList = await ToDoList.findById(id);
+    todoList.isPin = !todoList.isPin;
+    await todoList.save();
+    return res
+      .status(200)
+      .json({ message: "Pin successfully", success: true, data: todoList });
+  } catch (error) {
+    return res.status(404).json({ message: error.message, success: false });
+  }
+};
 module.exports = {
   createTodoList,
   updateToDoList,
   getToDoListByUserId,
   deleteToDoList,
   getToDoListById,
+  pin,
 };
