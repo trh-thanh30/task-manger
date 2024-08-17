@@ -18,6 +18,7 @@ router.post(
   cloudinaryFileUploader.single("taskImage"),
   createTodoList
 );
+
 router.put(
   "/:id",
   verifyToken,
@@ -27,4 +28,5 @@ router.put(
 router.get("/:id", verifyToken, getToDoListById);
 router.delete("/:id", verifyToken, deleteToDoList);
 router.put("/pin/:id", verifyToken, pin);
+
 module.exports = router;

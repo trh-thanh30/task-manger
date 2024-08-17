@@ -1,4 +1,5 @@
 const ToDoList = require("../models/todo-list.models");
+const User = require("../models/user.models");
 
 const createTodoList = async (req, res) => {
   const { title, description, priority, tags, taskImage } = req.body;
@@ -27,8 +28,11 @@ const createTodoList = async (req, res) => {
       userId: req.user.id,
     });
 
-    await newTodoList.save();
-    res.status(200).json(newTodoList);
+    const saveTodoList = await newTodoList.save();
+    await User.findByIdAndUpdate(req.user.id, {
+      $push: { listOfToDo: saveTodoList._id },
+    });
+    res.status(200).json(saveTodoList);
   } catch (error) {
     res.status(500).json({ message: error.message, success: false });
   }
@@ -125,7 +129,16 @@ const pin = async (req, res) => {
   try {
     const todoList = await ToDoList.findById(id);
     todoList.isPin = !todoList.isPin;
-    await todoList.save();
+    const saveTodoList = await todoList.save();
+    if (saveTodoList.isPin === true) {
+      await User.findByIdAndUpdate(req.user.id, {
+        $push: { listOfToDoHasPin: saveTodoList._id },
+      });
+    } else {
+      await User.findByIdAndUpdate(req.user.id, {
+        $pull: { listOfToDoHasPin: saveTodoList._id },
+      });
+    }
     return res
       .status(200)
       .json({ message: "Pin successfully", success: true, data: todoList });
@@ -133,6 +146,7 @@ const pin = async (req, res) => {
     return res.status(404).json({ message: error.message, success: false });
   }
 };
+
 module.exports = {
   createTodoList,
   updateToDoList,

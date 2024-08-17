@@ -26,6 +26,12 @@ const userSchema = new mongoose.Schema(
         ref: "ToDoList",
       },
     ],
+    listOfToDoHasPin: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ToDoList",
+      },
+    ],
   },
   {
     timestamps: true,

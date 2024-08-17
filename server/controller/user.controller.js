@@ -166,6 +166,18 @@ const deleteUser = async (req, res) => {
     return res.status(500).json({ message: error.message, success: false });
   }
 };
+const getUserWithPinnedToDos = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).populate("listOfToDoHasPin");
+    if (!user)
+      return res
+        .status(404)
+        .json({ message: "User not found", success: false });
+    return res.status(200).json({ data: user.listOfToDoHasPin, success: true });
+  } catch (error) {
+    return res.status(500).json({ message: error.message, success: false });
+  }
+};
 
 module.exports = {
   register,
@@ -174,4 +186,5 @@ module.exports = {
   updateUser,
   deleteUser,
   changePassword,
+  getUserWithPinnedToDos,
 };

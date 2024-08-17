@@ -6,6 +6,7 @@ const {
   updateUser,
   deleteUser,
   changePassword,
+  getUserWithPinnedToDos,
 } = require("../controller/user.controller");
 const verifyToken = require("../middleware/verifyToken");
 const cloudinaryFileUploader = require("../middleware/uploadFile");
@@ -23,4 +24,5 @@ router.put("/update-password", verifyToken, changePassword);
 
 router.delete("/delete", verifyToken, deleteUser);
 
+router.get("/pinned-todos", verifyToken, getUserWithPinnedToDos);
 module.exports = router;
