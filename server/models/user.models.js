@@ -20,7 +20,12 @@ const userSchema = new mongoose.Schema(
       default:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk5vCU8ufYriBkY4l8m2WefABD2zkRkB8HZw&s",
     },
-    // listOfTasks: [],
+    listOfToDo: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ToDoList",
+      },
+    ],
   },
   {
     timestamps: true,

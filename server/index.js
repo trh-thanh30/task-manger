@@ -3,6 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const userRoute = require("./routes/user.route");
+const toDoList = require("./routes/todo-list.route");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 dotenv.config();
@@ -26,6 +27,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use("/api/user", userRoute);
+app.use("/api/to-do-list", toDoList);
 app.listen(PORT, () => {
   console.log("Server is running on port: " + PORT);
 });

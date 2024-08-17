@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "../redux/user/userSlice";
 import { useState } from "react";
 import ModalAva from "./ModalAva";
+import ChangePassModal from "./ChangePassModal";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -16,6 +17,8 @@ export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
 
   const [showModal, setShowModal] = useState(false);
+
+  const [showModalChangePass, setShowModalChangePass] = useState(false);
 
   // Sign-out function
   const handleLogOut = async (e) => {
@@ -63,7 +66,9 @@ export default function Header() {
                 <Dropdown.Item onClick={() => setShowModal(true)}>
                   Profile
                 </Dropdown.Item>
-                <Dropdown.Item>Change Password</Dropdown.Item>
+                <Dropdown.Item onClick={() => setShowModalChangePass(true)}>
+                  Change Password
+                </Dropdown.Item>
                 <Dropdown.Divider />
                 <div className="flex items-center w-full gap-2 px-3 py-2 text-sm text-gray-700 transition-all cursor-pointer hover:bg-red-50 hover:text-red-500">
                   <CiLogout />
@@ -83,6 +88,10 @@ export default function Header() {
 
       {/* Modal */}
       <ModalAva showModal={showModal} setShowModal={setShowModal}></ModalAva>
+      <ChangePassModal
+        showModalChangePass={showModalChangePass}
+        setShowModalChangePass={setShowModalChangePass}
+      ></ChangePassModal>
     </>
   );
 }
