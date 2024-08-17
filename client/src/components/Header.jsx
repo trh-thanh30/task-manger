@@ -3,14 +3,16 @@ import { Avatar, Button, Dropdown, Navbar } from "flowbite-react";
 import { useDispatch, useSelector } from "react-redux";
 import { CiLogout } from "react-icons/ci";
 import SearchInput from "./SearchInput";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { signOut } from "../redux/user/userSlice";
 import { useState } from "react";
 import ModalAva from "./ModalAva";
 import ChangePassModal from "./ChangePassModal";
+import Logo from "./Logo";
 
 export default function Header() {
   const dispatch = useDispatch();
+  const path = useLocation().pathname;
 
   const navigate = useNavigate();
 
@@ -40,7 +42,43 @@ export default function Header() {
     <>
       <header className="bg-white border-b border-solid shadow-md border-slate-200">
         <Navbar>
+          <Logo></Logo>
           <SearchInput />
+          <Navbar.Collapse>
+            <Navbar.Link
+              as={"div"}
+              className={`hover:!text-blue-500 ${
+                path === "/dashboard" ? "!text-blue-500" : ""
+              }`}
+            >
+              <Link className="p-1 " to={"/dashboard"}>
+                {" "}
+                Home
+              </Link>
+            </Navbar.Link>
+            <Navbar.Link
+              as={"div"}
+              className={`hover:!text-blue-500 ${
+                path === "/about" ? "!text-blue-500" : ""
+              }`}
+            >
+              <Link className="p-1" to={"/about"}>
+                {" "}
+                About
+              </Link>
+            </Navbar.Link>
+            <Navbar.Link
+              as={"div"}
+              className={`hover:!text-blue-500 ${
+                path === "/contact" ? "!text-blue-500" : ""
+              }`}
+            >
+              <Link className="p-1" to={"/contact"}>
+                {" "}
+                Contact
+              </Link>
+            </Navbar.Link>
+          </Navbar.Collapse>
           <div className="flex self-end md:order-2">
             {currentUser ? (
               <Dropdown
