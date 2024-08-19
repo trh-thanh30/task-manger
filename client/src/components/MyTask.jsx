@@ -1,3 +1,4 @@
+import TaskDetails from "./TaskDetails";
 import TaskItem from "./TaskItem";
 
 export default function MyTask() {
@@ -14,7 +15,7 @@ export default function MyTask() {
 
         {/* Taks content */}
         <div className="flex-1 border border-solid rounded-lg border-slate-400">
-          Task desc
+          <TaskDetails></TaskDetails>
         </div>
       </div>
     </div>
