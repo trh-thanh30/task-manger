@@ -1,5 +1,4 @@
-import { PiDotsThreeOutlineThin } from "react-icons/pi";
-import { Dropdown } from "flowbite-react";
+import { TiPin } from "react-icons/ti";
 export default function TaskItem() {
   return (
     <div className="p-6">
@@ -7,20 +6,9 @@ export default function TaskItem() {
         <div className="flex items-center justify-between">
           <span className="border-8 border-red-500 border-solid rounded-full "></span>
           <h2 className="text-xl font-semibold">Tets</h2>
-          <Dropdown
-            label=""
-            dismissOnClick={false}
-            renderTrigger={() => (
-              <span className="cursor-pointer">
-                <PiDotsThreeOutlineThin />
-              </span>
-            )}
-          >
-            <Dropdown.Item>Dashboard</Dropdown.Item>
-            <Dropdown.Item>Settings</Dropdown.Item>
-            <Dropdown.Item>Earnings</Dropdown.Item>
-            <Dropdown.Item>Sign out</Dropdown.Item>
-          </Dropdown>
+          <div className="p-1 text-base transition-all cursor-pointer text-slate-400 hover:text-blue-500">
+            <TiPin></TiPin>
+          </div>
         </div>
         <div className="flex items-center my-4 text-sm text-slate-400">
           <p>

@@ -1,6 +1,11 @@
+import { Button, Label, Modal } from "flowbite-react";
+import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 export default function TaskDetails() {
+  const [openModal, setOpenModal] = useState(false);
   return (
     <div>
       <div className="p-3">
@@ -34,7 +39,10 @@ export default function TaskDetails() {
           </p>
         </div>
         <div className="flex items-center justify-end gap-2 mt-2">
-          <button className="p-2 text-base text-green-500 rounded-md bg-green-50">
+          <button
+            onClick={() => setOpenModal(true)}
+            className="p-2 text-base text-green-500 rounded-md bg-green-50"
+          >
             <CiEdit></CiEdit>
           </button>
           <button className="p-2 text-base text-red-500 rounded-md bg-red-50">
@@ -42,6 +50,87 @@ export default function TaskDetails() {
           </button>
         </div>
       </div>
+
+      <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header>Edit Task</Modal.Header>
+        <Modal.Body>
+          <div className="space-y-6">
+            <form className="flex flex-col gap-3">
+              {/* Title */}
+              <div className="flex flex-col gap-1">
+                <Label
+                  className="cursor-pointer w-fit"
+                  htmlFor="title"
+                  value="Title"
+                ></Label>
+                <input
+                  type="text"
+                  id="title"
+                  className="p-3 text-sm transition-all border border-gray-300 rounded-md text-slate-500 focus:border-blue-50"
+                ></input>
+              </div>
+
+              {/* Priority */}
+              <div className="flex flex-col gap-1">
+                <Label
+                  className="cursor-pointer w-fit"
+                  htmlFor="priority"
+                  value="Priority"
+                ></Label>
+                <select
+                  className="p-3 text-sm transition-all border border-gray-300 rounded-md text-slate-500 focus:border-blue-50"
+                  name="priority"
+                  id="priority"
+                >
+                  <option value="High">High</option>
+                  <option value="Moderate">Moderate</option>
+                  <option value="Low">Low</option>
+                </select>
+              </div>
+
+              {/* taskImage */}
+              <div className="flex flex-col gap-1">
+                <Label
+                  className="cursor-pointer w-fit"
+                  htmlFor="taskImage"
+                  value="Task Image"
+                ></Label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="p-3 text-sm transition-all border border-gray-300 rounded-md text-slate-500 focus:border-blue-50"
+                  name="taskImage"
+                  id="taskImage"
+                />
+              </div>
+
+              {/* Description */}
+              <div className="flex flex-col gap-1">
+                <Label
+                  className="cursor-pointer w-fit"
+                  htmlFor="description"
+                  value="Task Description"
+                ></Label>
+                <ReactQuill
+                  theme="snow"
+                  placeholder="Write something..."
+                  className="mb-12 h-72"
+                  required
+                  id="description"
+                ></ReactQuill>
+              </div>
+            </form>
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="flex justify-end">
+          <Button gradientDuoTone={"purpleToBlue"} outline>
+            Save
+          </Button>
+          <Button color="gray" onClick={() => setOpenModal(false)}>
+            Decline
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
