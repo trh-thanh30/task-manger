@@ -69,7 +69,10 @@ export default function SidebarDash() {
             </Sidebar.Item>
           </Link>
 
-          <Sidebar.Item icon={GoSignOut} className="cursor-pointer">
+          <Sidebar.Item
+            icon={GoSignOut}
+            className="cursor-pointer hover:!bg-red-50 hover:!text-red-500 "
+          >
             Sign Out
           </Sidebar.Item>
         </Sidebar.ItemGroup>

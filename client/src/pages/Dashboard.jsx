@@ -3,6 +3,7 @@ import FooterCom from "../components/Footer";
 import Header from "../components/Header";
 import SidebarDash from "../components/SidebarDash";
 import { useEffect, useState } from "react";
+import MyTask from "../components/MyTask";
 
 export default function Dashboard() {
   const loaction = useLocation();
@@ -25,7 +26,7 @@ export default function Dashboard() {
 
         {/* Content */}
         {tab === "dash" && <div className="flex-1 p-4">Content</div>}
-        {tab === "my-taks" && <div className="flex-1 p-4">Content</div>}
+        {tab === "my-taks" && <MyTask></MyTask>}
         {tab === "vital-task" && <div className="flex-1 p-4">Content</div>}
         {tab === "task-pin" && <div className="flex-1 p-4">Content</div>}
         {tab === "task-categories" && <div className="flex-1 p-4">Content</div>}
