@@ -17,7 +17,7 @@ const toDoListSchema = new mongoose.Schema(
     taskImage: {
       type: String,
       default:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqcjIMGf5x7g5DlCFLVLdxc6dz5YBKoZJ_4Q&s",
+        "https://www.wikihow.com/images/thumb/3/38/Make-a-To-Do-List-Step-5-Version-3.jpg/v4-460px-Make-a-To-Do-List-Step-5-Version-3.jpg.webp",
     },
     tags: [
       {

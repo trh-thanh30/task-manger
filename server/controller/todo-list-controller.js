@@ -3,9 +3,12 @@ const User = require("../models/user.models");
 
 const createTodoList = async (req, res) => {
   const { title, description, priority, tags, taskImage } = req.body;
+
+  const defalutImage =
+    "https://www.wikihow.com/images/thumb/3/38/Make-a-To-Do-List-Step-5-Version-3.jpg/v4-460px-Make-a-To-Do-List-Step-5-Version-3.jpg.webp";
   const uploadTaskImage = (req.body.taskImage = req.file
     ? req.file?.path
-    : null);
+    : defalutImage);
   if (!title) return res.status(400).json({ message: "Title is required" });
   if (!description)
     return res.status(400).json({ message: "Description is required" });

@@ -1,25 +1,22 @@
+/* eslint-disable react/prop-types */
 import { TiPin } from "react-icons/ti";
-export default function TaskItem() {
+import dayjs from "dayjs";
+export default function TaskItem({ item }) {
   return (
-    <div className="p-6">
+    <div className="">
       <div className="p-3 border border-solid rounded-md border-slate-400 hover:bg-slate-50 hover:transition-all">
         <div className="flex items-center justify-between">
           <span className="border-8 border-red-500 border-solid rounded-full "></span>
-          <h2 className="text-xl font-semibold">Tets</h2>
+          <h2 className="text-xl font-semibold">{item?.title}</h2>
           <div className="p-1 text-base transition-all cursor-pointer text-slate-400 hover:text-blue-500">
             <TiPin></TiPin>
           </div>
         </div>
-        <div className="flex items-center my-4 text-sm text-slate-400">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam
-            quibusdam ipsum quae neque et dolore tenetur accusamus nemo totam.
-            In, esse eaque! Praesentium amet quis libero, maxime dicta vel
-            tempore?
-          </p>
+        <div className="flex items-center justify-between my-4 text-sm text-slate-400">
+          <p>{item?.description}</p>
           <img
             className="object-cover w-20 h-20 rounded-lg"
-            src="https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1200,h_630/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/tsah7c9evnal289z5fig/IMG%20Worlds%20of%20Adventure%20Admission%20Ticket%20in%20Dubai%20-%20Klook.jpg"
+            src={item?.taskImage}
             alt=""
           />
         </div>
@@ -34,7 +31,7 @@ export default function TaskItem() {
           </div>
           <div className="flex items-center gap-1 text-slate-500">
             <span className="">Created on: </span>
-            <span>2011-11-1</span>
+            <span>{dayjs(item?.createdAt).format("YYYY/MM/DD")}</span>
           </div>
         </div>
       </div>

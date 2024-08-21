@@ -7,6 +7,7 @@ const {
   deleteUser,
   changePassword,
   getUserWithPinnedToDos,
+  checkToken,
 } = require("../controller/user.controller");
 const verifyToken = require("../middleware/verifyToken");
 const cloudinaryFileUploader = require("../middleware/uploadFile");

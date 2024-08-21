@@ -12,9 +12,11 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 export default function ModalAva({ showModal, setShowModal }) {
   const { currentUser, loading } = useSelector((state) => state.user);
   const inputRef = useRef(null);
+  const navigate = useNavigate();
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
@@ -53,6 +55,13 @@ export default function ModalAva({ showModal, setShowModal }) {
       });
 
       const data = await res.json();
+      if (
+        res.status === 401 ||
+        data === "Not authenticated" ||
+        data === "Token is not valid"
+      ) {
+        navigate("/sign-in");
+      }
       if (res.ok) {
         dispatch(updateUserSuccess(data));
         setSuccess("Profile updated successfully");

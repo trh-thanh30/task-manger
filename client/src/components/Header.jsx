@@ -21,7 +21,6 @@ export default function Header() {
   const [showModal, setShowModal] = useState(false);
 
   const [showModalChangePass, setShowModalChangePass] = useState(false);
-
   // Sign-out function
   const handleLogOut = async (e) => {
     e.preventDefault();
