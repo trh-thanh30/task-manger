@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import SidebarDash from "../components/SidebarDash";
 import { useEffect, useState } from "react";
 import MyTask from "../components/MyTask";
+import TaskPin from "../components/TaskPin";
 
 export default function Dashboard() {
   const loaction = useLocation();
@@ -28,7 +29,7 @@ export default function Dashboard() {
         {tab === "dash" && <div className="flex-1 p-4">Content</div>}
         {tab === "my-taks" && <MyTask></MyTask>}
         {tab === "vital-task" && <div className="flex-1 p-4">Content</div>}
-        {tab === "task-pin" && <div className="flex-1 p-4">Content</div>}
+        {tab === "task-pin" && <TaskPin></TaskPin>}
         {tab === "task-categories" && <div className="flex-1 p-4">Content</div>}
       </div>
       <FooterCom></FooterCom>

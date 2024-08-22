@@ -107,6 +107,9 @@ const deleteToDoList = async (req, res) => {
     return res.status(404).json({ message: "Id not found", success: false });
   try {
     const deleteToDoList = await ToDoList.findByIdAndDelete(id);
+    await User.findByIdAndUpdate(req.user.id, {
+      $pull: { listOfToDo: deleteToDoList._id },
+    });
     res.status(200).json({ message: "Deleted successfully", success: true });
   } catch (error) {
     return res.status(400).json({ message: error.message, success: false });
@@ -150,6 +153,19 @@ const pin = async (req, res) => {
   }
 };
 
+const getAllToDoPin = async (req, res) => {
+  const { id } = req.user;
+  if (!id) {
+    return res.status(404).json({ message: "Id not found", success: false });
+  }
+  try {
+    const todoList = await ToDoList.find({ userId: id, isPin: true });
+    return res.status(200).json({ data: todoList, success: true });
+  } catch (error) {
+    return res.status(500).json({ message: error.message, success: false });
+  }
+};
+
 module.exports = {
   createTodoList,
   updateToDoList,
@@ -157,4 +173,5 @@ module.exports = {
   deleteToDoList,
   getToDoListById,
   pin,
+  getAllToDoPin,
 };
