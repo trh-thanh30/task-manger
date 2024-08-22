@@ -2,7 +2,6 @@
 import { Alert, Button, Label, Modal, Spinner } from "flowbite-react";
 import { useState } from "react";
 import ReactQuill from "react-quill";
-
 import "react-quill/dist/quill.snow.css";
 export default function ModalAddTask({ openModal, setOpenModal, getTask }) {
   // strip html reactQuill
@@ -17,7 +16,9 @@ export default function ModalAddTask({ openModal, setOpenModal, getTask }) {
     title: "",
     description: "",
     taskImage: null,
+    priority: "Low",
   });
+
   const onChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -32,6 +33,7 @@ export default function ModalAddTask({ openModal, setOpenModal, getTask }) {
     newForm.append("title", formData.title);
     newForm.append("description", formData.description);
     newForm.append("taskImage", formData.taskImage);
+    newForm.append("priority", formData.priority);
     e.preventDefault();
     try {
       setLoading(true);
@@ -83,25 +85,24 @@ export default function ModalAddTask({ openModal, setOpenModal, getTask }) {
               ></input>
             </div>
             {/* Priority */}
-            {/* <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1">
               <Label
                 className="cursor-pointer w-fit"
                 htmlFor="priority"
                 value="Priority"
               ></Label>
               <select
-                onSelect={(e) =>
-                  setFormData({ ...formData, priority: e.target.value })
-                }
+                onChange={onChange}
+                value={formData.priority}
                 className="p-3 text-sm transition-all border border-gray-300 rounded-md text-slate-500 focus:border-blue-50"
                 name="priority"
                 id="priority"
               >
-                <option value="Extreme">High</option>
+                <option value="Extreme">Extreme</option>
                 <option value="Moderate">Moderate</option>
                 <option value="Low">Low</option>
               </select>
-            </div> */}
+            </div>
             {/* taskImage */}
             <div className="flex flex-col gap-1">
               <Label
@@ -142,8 +143,13 @@ export default function ModalAddTask({ openModal, setOpenModal, getTask }) {
               </Alert>
             )}
             <Modal.Footer className="flex justify-end pb-0">
-              <Button type="submit" gradientDuoTone={"purpleToBlue"} outline>
-                {loading ? <Spinner size={"xs"}></Spinner> : "Create Task"}
+              <Button
+                disabled={loading}
+                    type="submit"
+                gradientDuoTone={"purpleToBlue"}
+                outline
+              >
+                {loading ? <Spinner size={"md"}></Spinner> : "Create Task"}
               </Button>
               <Button color="gray" onClick={() => setOpenModal(false)}>
                 Decline

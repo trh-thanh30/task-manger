@@ -3,11 +3,17 @@ import TaskItem from "./TaskItem";
 import { useEffect, useState } from "react";
 import ModalAddTask from "./ModalAddTask";
 import { Spinner } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 export default function MyTask() {
+  const naigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
+  const [todoDetails, setToDoDetails] = useState();
   const [taskItem, setTaskItem] = useState([]);
   const [loading, setLoading] = useState(false);
+  const imageTaksDetailsNull =
+    "https://glints.com/vn/blog/wp-content/uploads/2022/09/to-do-list-ma%CC%82%CC%83u.jpeg";
+  // get all to do list
   const getTask = async () => {
     const limit = 3;
     const page = 1;
@@ -22,6 +28,9 @@ export default function MyTask() {
         }
       );
       const data = await res.json();
+      if (res.status === 401) {
+        naigate("/sign-in");
+      }
       setLoading(false);
       setTaskItem(data.data);
     } catch (error) {
@@ -31,6 +40,26 @@ export default function MyTask() {
   useEffect(() => {
     getTask();
   }, []);
+
+  // get to do deatils
+  const getToDoDeatils = async (item) => {
+    try {
+      setLoading(true);
+      const res = await fetch(
+        `http://localhost:3000/api/to-do-list/${item._id}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      const data = await res.json();
+      setLoading(false);
+      setToDoDetails(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="p-8">
@@ -60,7 +89,12 @@ export default function MyTask() {
             ) : (
               <div className="flex flex-col gap-3">
                 {taskItem?.data?.map((item) => (
-                  <TaskItem key={item._id} item={item}></TaskItem>
+                  <TaskItem
+                    getToDoDeatils={getToDoDeatils}
+                    key={item._id}
+                    item={item}
+                    getTask={getTask}
+                  ></TaskItem>
                 ))}
               </div>
             )}
@@ -68,7 +102,23 @@ export default function MyTask() {
 
           {/* Taks content */}
           <div className="flex-1 border border-solid rounded-lg border-slate-400">
-            <TaskDetails></TaskDetails>
+            {todoDetails ? (
+              <TaskDetails
+                todoDetails={todoDetails}
+                getTask={getTask}
+              ></TaskDetails>
+            ) : (
+              <div className="flex flex-col items-center justify-center gap-3">
+                <p className="mt-4 text-sm text-center text-slate-400">
+                  Click your to do task to see details
+                </p>
+                <img
+                  className="object-cover w-40 h-40 rounded-md"
+                  src={imageTaksDetailsNull}
+                  alt=""
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -81,4 +131,3 @@ export default function MyTask() {
     </>
   );
 }
-

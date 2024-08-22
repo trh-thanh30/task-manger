@@ -152,8 +152,8 @@ export default function ModalAva({ showModal, setShowModal }) {
               <input
                 type="email"
                 onChange={handleChangeProfile}
-                id="email"
                 value={formData.email}
+                id="email"
                 className="text-sm transition-all border rounded-lg border-slate-500 text-slate-500 focus:ring-blue-500"
               />
             </div>

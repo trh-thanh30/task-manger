@@ -1,10 +1,11 @@
-import { Button, Label, Modal } from "flowbite-react";
+/* eslint-disable react/prop-types */
+
 import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-export default function TaskDetails() {
+
+import ModalUpdateTask from "./ModalUpdateTask";
+export default function TaskDetails({ todoDetails, getTask }) {
   const [openModal, setOpenModal] = useState(false);
   return (
     <div>
@@ -13,30 +14,25 @@ export default function TaskDetails() {
         <div className="flex items-center gap-6">
           <img
             className="object-cover rounded-lg w-36 h-36"
-            src="https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1200,h_630/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/tsah7c9evnal289z5fig/IMG%20Worlds%20of%20Adventure%20Admission%20Ticket%20in%20Dubai%20-%20Klook.jpg"
+            src={todoDetails?.taskImage}
             alt=""
           />
           <div className="flex flex-col">
-            <h2 className="text-xl font-semibold">Subnit</h2>
+            <h2 className="text-xl font-semibold">{todoDetails?.title}</h2>
             <div className="flex gap-1">
-              <span>Priority: </span> <span>High</span>
+              <span>Priority: </span> <span>{todoDetails?.priority}</span>
             </div>
             <div className="flex gap-1">
-              <span>Priority: </span> <span>High</span>
+              <span>Status: </span> <span>High</span>
             </div>
             <div className="flex gap-1 text-sm text-slate-300">
-              <span>Priority: </span> <span>High</span>
+              <span>Tags: </span> <span>High</span>
             </div>
           </div>
         </div>
         {/* Content */}
         <div className="mt-3">
-          <p className="text-sm text-slate-500">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est
-            tempore exercitationem consequatur eum nostrum odio suscipit dolor
-            incidunt? Autem quis rem nulla ex labore cupiditate temporibus
-            aspernatur possimus dignissimos nemo?
-          </p>
+          <p className="text-sm text-slate-500">{todoDetails?.description}</p>
         </div>
         <div className="flex items-center justify-end gap-2 mt-2">
           <button
@@ -51,86 +47,12 @@ export default function TaskDetails() {
         </div>
       </div>
 
-      <Modal show={openModal} onClose={() => setOpenModal(false)}>
-        <Modal.Header>Edit Task</Modal.Header>
-        <Modal.Body>
-          <div className="space-y-6">
-            <form className="flex flex-col gap-3">
-              {/* Title */}
-              <div className="flex flex-col gap-1">
-                <Label
-                  className="cursor-pointer w-fit"
-                  htmlFor="title"
-                  value="Title"
-                ></Label>
-                <input
-                  type="text"
-                  id="title"
-                  className="p-3 text-sm transition-all border border-gray-300 rounded-md text-slate-500 focus:border-blue-50"
-                ></input>
-              </div>
-
-              {/* Priority */}
-              <div className="flex flex-col gap-1">
-                <Label
-                  className="cursor-pointer w-fit"
-                  htmlFor="priority"
-                  value="Priority"
-                ></Label>
-                <select
-                  className="p-3 text-sm transition-all border border-gray-300 rounded-md text-slate-500 focus:border-blue-50"
-                  name="priority"
-                  id="priority"
-                >
-                  <option value="High">High</option>
-                  <option value="Moderate">Moderate</option>
-                  <option value="Low">Low</option>
-                </select>
-              </div>
-
-              {/* taskImage */}
-              <div className="flex flex-col gap-1">
-                <Label
-                  className="cursor-pointer w-fit"
-                  htmlFor="taskImage"
-                  value="Task Image"
-                ></Label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="p-3 text-sm transition-all border border-gray-300 rounded-md text-slate-500 focus:border-blue-50"
-                  name="taskImage"
-                  id="taskImage"
-                />
-              </div>
-
-              {/* Description */}
-              <div className="flex flex-col gap-1">
-                <Label
-                  className="cursor-pointer w-fit"
-                  htmlFor="description"
-                  value="Task Description"
-                ></Label>
-                <ReactQuill
-                  theme="snow"
-                  placeholder="Write something..."
-                  className="mb-12 h-72"
-                  required
-                  id="description"
-                ></ReactQuill>
-              </div>
-            </form>
-          </div>
-        </Modal.Body>
-        <Modal.Footer className="flex justify-end">
-          <Button gradientDuoTone={"purpleToBlue"} outline>
-            Save
-          </Button>
-          <Button color="gray" onClick={() => setOpenModal(false)}>
-            Decline
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <ModalUpdateTask
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        todoDetails={todoDetails}
+        getTask={getTask}
+      ></ModalUpdateTask>
     </div>
   );
 }
